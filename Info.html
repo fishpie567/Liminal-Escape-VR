@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Info - Liminal Escape VR</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
     <header>
@@ -19,6 +20,7 @@
                 <a href="beta-testing.html" class="menu-btn">Beta Testing</a>
                 <a href="info.html" class="menu-btn">Info</a>
                 <a href="index.html" class="menu-btn">Home</a>
+                <a href="moderator.html" class="menu-btn mod-link hidden">Moderator Panel</a>
             </div>
         </div>
     </header>
@@ -36,7 +38,23 @@
     
     <footer>
         <p>&copy; 2025 Liminal Escape VR</p>
+        <div class="mod-icon" id="modIcon">
+            <i class="fas fa-hammer"></i>
+        </div>
     </footer>
+
+    <div id="modAccessModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Moderator Access</h2>
+            <div class="input-group">
+                <label for="mod-password">Moderator Password</label>
+                <input type="password" id="mod-password" placeholder="Enter moderator password">
+            </div>
+            <button id="submitModPassword" class="primary-btn">Access Panel</button>
+            <p id="mod-error" class="error-message"></p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

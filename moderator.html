@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderator Panel - Liminal Escape VR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Liminal Escape VR</h1>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div class="menu-items">
+                <a href="beta-testing.html" class="menu-btn">Beta Testing</a>
+                <a href="info.html" class="menu-btn">Info</a>
+                <a href="index.html" class="menu-btn">Home</a>
+                <a href="moderator.html" class="menu-btn mod-link">Moderator Panel</a>
+            </div>
+        </div>
+    </header>
+    
+    <main class="page-content">
+        <div id="moderator-content">
+            <div class="page-header">
+                <h2><i class="fas fa-shield-alt"></i> Moderator Dashboard</h2>
+            </div>
+            
+            <div class="content-section">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-users">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="pending-users">0</div>
+                        <div class="stat-label">Pending Approvals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="approved-users">0</div>
+                        <div class="stat-label">Approved Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="mod-users">0</div>
+                        <div class="stat-label">Moderators</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-heading">
+                    <h3>User Management</h3>
+                    <div class="search-container">
+                        <input type="text" class="search-input" id="user-search" placeholder="Search by username...">
+                        <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="user-list">
+                    <div class="user-list-header">
+                        <div>Discord Username</div>
+                        <div>Status</div>
+                        <div>Actions</div>
+                    </div>
+                    <div id="user-list-container">
+                        <!-- User items will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="dashboard-container">
+                    <div class="dashboard-heading">
+                        <h3>Access Statistics</h3>
+                    </div>
+                    <p>Total Beta Code Access Attempts: <span id="access-attempts">0</span></p>
+                    <p>Success Rate: <span id="success-rate">0%</span></p>
+                    <button id="logout-mod-btn" class="secondary-btn">Revoke Moderator Access</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="access-denied" class="hidden">
+            <div class="page-header">
+                <h2>Access Denied</h2>
+            </div>
+            <div class="content-section">
+                <p>You do not have permission to access the moderator panel.</p>
+                <p>Please contact an administrator if you believe this is an error.</p>
+                <a href="index.html" class="primary-btn" style="display: inline-block; margin-top: 20px; text-decoration: none;">Return to Home</a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Liminal Escape VR</p>
+        <div class="mod-icon" id="modIcon">
+            <i class="fas fa-hammer"></i>
+        </div>
+    </footer>
+
+    <div id="modAccessModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Moderator Access</h2>
+            <div class="input-group">
+                <label for="mod-password">Moderator Password</label>
+                <input type="password" id="mod-password" placeholder="Enter moderator password">
+            </div>
+            <button id="submitModPassword" class="primary-btn">Access Panel</button>
+            <p id="mod-error" class="error-message"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="moderator.js"></script>
+</body>
+</html>
