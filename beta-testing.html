@@ -170,12 +170,36 @@
         </div>
         
         <div class="file-upload-container">
-          <label for="file-upload" class="custom-file-upload">
-            <i class="fas fa-cloud-upload-alt"></i> Select File
-          </label>
-          <input id="file-upload" type="file" name="beta-build" />
-          <span id="file-name">No file selected</span>
-        </div>
+            <label for="file-upload" class="custom-file-upload">
+              <i class="fas fa-upload"></i> Select APK File
+            </label>
+            <input id="file-upload" type="file" name="beta-build" accept=".apk" onchange="handleFileSelect(this)" />
+            <span id="file-name">No file selected</span>
+          </div>
+          
+          <script>
+          function handleFileSelect(input) {
+              const file = input.files && input.files.length > 0 ? input.files[0] : null;
+              const fileName = document.getElementById('file-name');
+              
+              if (fileName) {
+                  if (file) {
+                      console.log("File selected:", file.name, file.type);
+                      if (file.name.toLowerCase().endsWith('.apk')) {
+                          fileName.textContent = file.name;
+                          fileName.style.color = '#333';
+                      } else {
+                          fileName.textContent = 'Please select an APK file';
+                          fileName.style.color = '#f44336';
+                          input.value = '';
+                      }
+                  } else {
+                      fileName.textContent = 'No file selected';
+                      fileName.style.color = '#333';
+                  }
+              }
+          }
+          </script>
         
         <div class="input-group">
           <label for="build-notes">Release Notes</label>

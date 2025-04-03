@@ -257,6 +257,11 @@ function isHovering(element) {
         const notesCloseButtons = document.querySelectorAll('.notes-close');
         const deleteCloseButtons = document.querySelectorAll('.delete-close');
         
+        // Success notification elements
+        const successNotification = document.getElementById('success-notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const closeNotification = document.getElementById('close-notification');
+        
         let currentEditVersion = null;
         let currentDeleteVersion = null;
         
@@ -315,7 +320,22 @@ function isHovering(element) {
             // Moderator event listeners
             if (fileUpload) {
                 fileUpload.addEventListener('change', function() {
-                    fileName.textContent = this.files.length > 0 ? this.files[0].name : 'No file selected';
+                    const file = this.files.length > 0 ? this.files[0] : null;
+                    
+                    if (file) {
+                        // Check if it's an APK file
+                        if (file.name.toLowerCase().endsWith('.apk')) {
+                            fileName.textContent = file.name;
+                            fileName.style.color = '#333'; // Reset to normal color
+                        } else {
+                            fileName.textContent = 'Please select an APK file';
+                            fileName.style.color = '#f44336'; // Red color for error
+                            this.value = ''; // Clear the file input
+                        }
+                    } else {
+                        fileName.textContent = 'No file selected';
+                        fileName.style.color = '#333';
+                    }
                 });
             }
             
@@ -356,6 +376,13 @@ function isHovering(element) {
                     if (currentDeleteVersion) {
                         deleteBuild(currentDeleteVersion);
                     }
+                });
+            }
+            
+            // Notification close button
+            if (closeNotification) {
+                closeNotification.addEventListener('click', function() {
+                    hideNotification();
                 });
             }
         }
@@ -435,7 +462,7 @@ function isHovering(element) {
                 // In a real implementation, this would redirect to a secure download URL
                 // For this simulation, we'll just create a dummy download experience
                 
-                alert(`Download starting for ${build.version}!\n\nIn a real implementation, this would download the actual file.`);
+                alert(`Download starting for ${build.version}!\n\nIn a real implementation, this would download the APK file: ${build.fileName}`);
                 
                 // For a real implementation, you would use something like:
                 // window.location.href = build.downloadUrl;
@@ -465,6 +492,12 @@ function isHovering(element) {
             
             if (!file) {
                 showMessage(uploadMessage, 'Please select a file to upload.', 'error');
+                return;
+            }
+            
+            // Validate file type
+            if (!file.name.toLowerCase().endsWith('.apk')) {
+                showMessage(uploadMessage, 'Only APK files are allowed.', 'error');
                 return;
             }
             
@@ -509,8 +542,9 @@ function isHovering(element) {
                         fileSize: (file.size / (1024 * 1024)).toFixed(2), // Convert to MB
                         notes: notes,
                         date: new Date().toISOString(),
+                        fileType: 'apk',
                         // In a real implementation, you would store:
-                        // downloadUrl: 'https://example.com/downloads/your-file.zip'
+                        // downloadUrl: 'https://example.com/downloads/your-file.apk'
                     };
                     
                     // Add to builds array
@@ -519,6 +553,9 @@ function isHovering(element) {
                     
                     // Show success message
                     showMessage(uploadMessage, 'Build uploaded successfully!', 'success');
+                    
+                    // Show success notification
+                    showNotification(`APK version ${version} uploaded successfully!`);
                     
                     // Reset form
                     uploadForm.reset();
@@ -562,7 +599,7 @@ function isHovering(element) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${build.version}</td>
-                    <td>${build.fileName}</td>
+                    <td>${build.fileName} <span class="file-type">(${build.fileType || 'apk'})</span></td>
                     <td>${build.fileSize} MB</td>
                     <td>${formattedDate}</td>
                     <td class="action-btns">
@@ -624,6 +661,9 @@ function isHovering(element) {
                 // Show success message
                 showMessage(uploadMessage, 'Release notes updated successfully!', 'success');
                 
+                // Show notification
+                showNotification(`Release notes for version ${version} updated successfully!`);
+                
                 // Refresh the builds table
                 loadBuildsTable();
             }
@@ -640,6 +680,9 @@ function isHovering(element) {
             
             // Show success message
             showMessage(uploadMessage, `Build ${version} has been deleted.`, 'success');
+            
+            // Show notification
+            showNotification(`Build ${version} has been deleted successfully.`);
             
             // Refresh the builds table
             loadBuildsTable();
@@ -663,6 +706,26 @@ function isHovering(element) {
                 element.textContent = '';
                 element.className = 'message';
             }, 5000);
+        }
+        
+        function showNotification(message) {
+            if (!successNotification || !notificationMessage) return;
+            
+            notificationMessage.textContent = message;
+            successNotification.classList.remove('hidden');
+            successNotification.classList.add('show-notification');
+            
+            // Auto hide after 5 seconds
+            setTimeout(hideNotification, 5000);
+        }
+        
+        function hideNotification() {
+            if (!successNotification) return;
+            
+            successNotification.classList.remove('show-notification');
+            setTimeout(() => {
+                successNotification.classList.add('hidden');
+            }, 300); // Wait for fade out animation
         }
         
         function isValidVersion(version) {
@@ -689,5 +752,4 @@ function isHovering(element) {
             return 0;
         }
     });
-    
 });
