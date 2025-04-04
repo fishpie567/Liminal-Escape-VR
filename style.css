@@ -929,3 +929,41 @@ input[type="file"] {
 .danger-btn:hover {
     background-color: #d32f2f;
 }
+.refresh-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .refresh-btn {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .refresh-btn:hover {
+    background-color: #e0e0e0;
+    transform: rotate(180deg);
+  }
+  
+  .refresh-btn i {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  @keyframes spinning {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .spinning {
+    animation: spinning 0.8s linear;
+  }
